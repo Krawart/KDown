@@ -1,0 +1,7 @@
+node_modules
+
+# Ignore artifacts:
+src/shared/api/client/*
+build
+dist
+coverage

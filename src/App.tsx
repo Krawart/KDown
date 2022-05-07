@@ -17,16 +17,21 @@ import { FormEvent, useState } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { AvTimer, ContentPaste } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
+import defaultBackground from './assets/bg-01.jpg'
 
 function App() {
   const [eventTitle, setEventTitle] = useState('')
-  const [backgroundUrl, setBackgroundUrl] = useState('')
+  const [backgroundUrl, setBackgroundUrl] = useState(defaultBackground)
   const [eventDateTime, setEventDateTime] = useState<Date | null>(null)
   const [isPresenting, setIsPresenting] = useState<boolean>(false)
 
   function handlePresentationStart(e: FormEvent) {
     e.preventDefault()
     setIsPresenting(true)
+  }
+
+  function handleChangeBackground(url: string) {
+    setBackgroundUrl(url.length > 0 ? url : defaultBackground)
   }
 
   return (
@@ -55,7 +60,7 @@ function App() {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel htmlFor="input-title">Title</InputLabel>
+                    <InputLabel htmlFor='input-title'>Title</InputLabel>
                     <OutlinedInput
                       id={'input-title'}
                       label={'Title'}
@@ -75,20 +80,20 @@ function App() {
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <FormControl variant={'outlined'} fullWidth>
-                      <InputLabel htmlFor="input-background-url">Background url</InputLabel>
+                      <InputLabel htmlFor='input-background-url'>Background url</InputLabel>
                       <OutlinedInput
                         id={'input-background-url'}
                         label={'Background url'}
                         endAdornment={
                           <IconButton
-                            onClick={() => navigator.clipboard.readText().then((value) => setBackgroundUrl(value))}
+                            onClick={() => navigator.clipboard.readText().then(handleChangeBackground)}
                           >
                             <ContentPaste />
                           </IconButton>
                         }
                         fullWidth
-                        value={backgroundUrl}
-                        onChange={(e) => setBackgroundUrl(e.target.value)}
+                        value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
+                        onChange={(e) => handleChangeBackground(e.target.value)}
                       />
                     </FormControl>
                   </Box>
@@ -98,7 +103,7 @@ function App() {
                     renderInput={(props) => (
                       <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
                     )}
-                    label="Event Date Time"
+                    label='Event Date Time'
                     value={eventDateTime}
                     onChange={(newEventDate) => {
                       setEventDateTime(newEventDate)

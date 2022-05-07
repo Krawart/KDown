@@ -36,11 +36,7 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
           flexGrow: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: `url(${
-            backgroundImage && backgroundImage !== ''
-              ? backgroundImage
-              : 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3432&q=80'
-          })`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           zIndex: 100,
         }}
@@ -57,8 +53,17 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
             background: 'radial-gradient(rgba(0,0,0,0.70) 20%, transparent)',
           }}
         >
-          <IconButton onClick={onClose} sx={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-            <Close sx={{ fontSize: '3rem' }} />
+          <IconButton onClick={onClose} sx={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            opacity: 0.3,
+            '&:hover': {
+              opacity: 1,
+              transition: 'opacity .15s'
+            },
+          }}>
+            <Close sx={{ fontSize: '2rem' }} />
           </IconButton>
           <Typography variant={'h1'} fontSize={'14rem'} fontWeight={500}>
             {customFormatDuration(remainingTime)}

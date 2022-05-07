@@ -33,7 +33,9 @@ export default createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: '2rem',
+          borderRadius: '1rem',
+          background: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8))',
+          backdropFilter: 'blur(10px)',
         },
       },
     },

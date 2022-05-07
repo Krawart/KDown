@@ -36,11 +36,7 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
           flexGrow: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: `url(${
-            backgroundImage && backgroundImage !== ''
-              ? backgroundImage
-              : 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3432&q=80'
-          })`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           zIndex: 100,
         }}

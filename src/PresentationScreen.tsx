@@ -53,8 +53,17 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
             background: 'radial-gradient(rgba(0,0,0,0.70) 20%, transparent)',
           }}
         >
-          <IconButton onClick={onClose} sx={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-            <Close sx={{ fontSize: '3rem' }} />
+          <IconButton onClick={onClose} sx={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            opacity: 0.3,
+            '&:hover': {
+              opacity: 1,
+              transition: 'opacity .15s'
+            },
+          }}>
+            <Close sx={{ fontSize: '2rem' }} />
           </IconButton>
           <Typography variant={'h1'} fontSize={'14rem'} fontWeight={500}>
             {customFormatDuration(remainingTime)}

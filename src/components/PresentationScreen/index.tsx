@@ -1,8 +1,8 @@
 import { Box, CircularProgress, IconButton, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { customFormatDuration } from './time-utils'
-import { useCountdown } from './hooks/useCountdown'
-import { pulseAnimation } from './styles/animations'
+import { customFormatDuration } from '../../utils/time-utils'
+import { useCountdown } from '../../hooks/useCountdown'
+import { pulseAnimation } from '../../styles/animations'
 
 type PresentationScreenProps = {
   title: string

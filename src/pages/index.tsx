@@ -1,7 +1,7 @@
 import { useCountdownSettings } from '../hooks/useCountdownSettings'
 import { FormEvent } from 'react'
 import AnimatedBackground from '../components/AnimatedBackground'
-import PresentationScreen from '../PresentationScreen'
+import PresentationScreen from '../components/PresentationScreen'
 import { Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
 import { AvTimer } from '@mui/icons-material'
 import TextInput from '../components/inputs/TextInput'

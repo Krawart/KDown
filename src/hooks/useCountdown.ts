@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Duration, getDuration, isDurationEqualsZero } from '../time-utils'
+import { Duration, getDuration, isDurationEqualsZero } from '../utils/time-utils'
 
 export function useCountdown(eventDateTime: Date) {
   const now = new Date()

@@ -9,6 +9,7 @@ import TextInput from './components/inputs/TextInput'
 function App() {
   const [eventTitle, setEventTitle] = useState('')
   const [backgroundUrl, setBackgroundUrl] = useState(defaultBackground)
+  const [finishText, setFinishText] = useState('')
   const [eventDateTime, setEventDateTime] = useState<Date | null>(null)
   const [isPresenting, setIsPresenting] = useState<boolean>(false)
 
@@ -60,6 +61,13 @@ function App() {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <TextInput
+                    label={'Finish text'}
+                    value={finishText}
+                    onChange={setFinishText}
+                  />
+                </Grid>
+                <Grid item xs={12}>
                   <DateTimePicker
                     renderInput={(props) => (
                       <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
@@ -92,6 +100,7 @@ function App() {
       {isPresenting && (
         <PresentationScreen
           title={eventTitle}
+          finishText={finishText}
           backgroundImage={backgroundUrl}
           eventDateTime={eventDateTime ?? new Date(new Date().getMilliseconds() + 1000)}
           onClose={() => setIsPresenting(false)}

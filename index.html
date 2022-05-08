@@ -9,11 +9,13 @@
     rel='stylesheet'
   />
   <!-- Google analytics - START -->
-  <script async src='https://www.googletagmanager.com/gtag/js?id=G-NLXM8P0231'></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NLXM8P0231"></script>
   <script>
-    {
-      injectGA()
-    }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NLXM8P0231');
   </script>
   <!-- Google analytics - END -->
   <title>KDown</title>

@@ -1,8 +1,8 @@
 import { Box, CircularProgress, IconButton, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { customFormatDuration } from './time-utils'
-import { useCountdown } from './hooks/useCountdown'
-import { pulseAnimation } from './styles/animations'
+import { customFormatDuration } from '../../utils/time-utils'
+import { useCountdown } from '../../hooks/useCountdown'
+import { pulseAnimation } from '../../styles/animations'
 
 type PresentationScreenProps = {
   title: string
@@ -39,7 +39,7 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
             alignItems: 'center',
             justifyContent: 'center',
             flexGrow: 1,
-            background: 'radial-gradient(rgba(0,0,0,0.70) 20%, transparent)',
+            background: 'radial-gradient(rgba(0,0,0,0.618) 20%, transparent)',
           }}
         >
           <IconButton
@@ -62,11 +62,12 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
           ) : (
             <Typography
               sx={{
-                padding: 5,
+                padding: 1,
+                textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)',
                 ...(isFinished ? pulseAnimation : null),
               }}
               variant={'h1'}
-              fontSize={{ xs: '5rem', sm: '8rem', md: '12rem', lg: '15rem' }}
+              fontSize={{ xs: '3.5rem', sm: '6rem', md: '9rem', lg: '12rem' }}
               fontWeight={500}
             >
               {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
@@ -74,7 +75,11 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
           )}
 
           {!isFinished && (
-            <Typography variant={'h2'} fontSize={{ xs: '2rem', sm: '3rem', md: '4rem', lg: '5rem' }}>
+            <Typography
+              sx={{ textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)' }}
+              variant={'h2'}
+              fontSize={{ xs: '1.5rem', sm: '2rem', md: '3rem', lg: '4rem' }}
+            >
               {title}
             </Typography>
           )}

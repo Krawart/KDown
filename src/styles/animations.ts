@@ -24,13 +24,13 @@ export const pulseAnimation: SxProps = {
 export const slowZoomInOutBackgroundAnimation: SxProps = {
   '@keyframes slowZoomInOutBackground': {
     '0%': {
-      backgroundSize: 'auto 100%',
+      backgroundSize: 'cover 100%',
     },
     '50%': {
-      backgroundSize: 'auto 110%',
+      backgroundSize: 'cover 110%',
     },
     '100%': {
-      backgroundSize: 'auto 100%',
+      backgroundSize: 'cover 100%',
     },
   },
   animation: 'slowZoomInOutBackground 120s infinite',

@@ -1,7 +1,7 @@
 import { Box, CircularProgress, IconButton, SxProps, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { useEffect, useRef, useState } from 'react'
-import { customFormatDuration, getDuration, isDurationEqualsZero } from './time-utils'
+import { customFormatDuration } from './time-utils'
+import { useCountdown } from './hooks/useCountdown'
 
 type PresentationScreenProps = {
   title: string
@@ -33,29 +33,7 @@ const pulseAnimation: SxProps = {
 }
 
 function PresentationScreen({ title, finishText, backgroundImage, eventDateTime, onClose }: PresentationScreenProps) {
-  const now = new Date()
-  const timer = useRef(0)
-  const [content, setContent] = useState('')
-  const [isFinished, setIsFinished] = useState(false)
-
-  useEffect(() => {
-    timer.current = window.setInterval(() => {
-      if (isFinished) {
-        clearInterval(timer.current)
-        console.log('interval-reset')
-      }
-      console.log('rendered')
-      const remainingDuration = getDuration(eventDateTime, now)
-      if (isDurationEqualsZero(remainingDuration)) {
-        setIsFinished(true)
-        setContent(finishText.length === 0 ? customFormatDuration(remainingDuration) : finishText)
-      } else {
-        setContent(customFormatDuration(remainingDuration))
-      }
-    }, 1000)
-    return () => clearInterval(timer.current)
-  }, [eventDateTime, now])
-
+  const { isFinished, remainingTime } = useCountdown(eventDateTime)
   return (
     <>
       <Box
@@ -102,7 +80,7 @@ function PresentationScreen({ title, finishText, backgroundImage, eventDateTime,
           >
             <Close sx={{ fontSize: '2rem' }} />
           </IconButton>
-          {content === '' ? (
+          {remainingTime === undefined ? (
             <CircularProgress size={'12rem'} />
           ) : (
             <Typography
@@ -114,7 +92,7 @@ function PresentationScreen({ title, finishText, backgroundImage, eventDateTime,
               fontSize={'14rem'}
               fontWeight={500}
             >
-              {content}
+              {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
             </Typography>
           )}
 

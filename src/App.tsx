@@ -47,11 +47,7 @@ function App() {
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <TextInput
-                    label={'Title'}
-                    value={eventTitle}
-                    onChange={setEventTitle}
-                  />
+                  <TextInput label={'Title'} value={eventTitle} onChange={setEventTitle} />
                 </Grid>
                 <Grid item xs={12}>
                   <TextInput
@@ -61,22 +57,17 @@ function App() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextInput
-                    label={'Finish text'}
-                    value={finishText}
-                    onChange={setFinishText}
-                  />
+                  <TextInput label={'Finish text'} value={finishText} onChange={setFinishText} />
                 </Grid>
                 <Grid item xs={12}>
                   <DateTimePicker
                     renderInput={(props) => (
                       <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
                     )}
-                    label='Event Date Time'
+                    label="Event Date Time"
                     value={eventDateTime}
-                    onChange={(newEventDate) => {
-                      setEventDateTime(newEventDate)
-                    }}
+                    onChange={(newEventDate) => setEventDateTime(newEventDate)}
+                    onError={() => setEventDateTime(null)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -87,6 +78,7 @@ function App() {
                     fullWidth
                     variant={'contained'}
                     type={'submit'}
+                    disabled={!eventDateTime}
                   >
                     Run countdown
                   </Button>

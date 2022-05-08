@@ -1,12 +1,13 @@
-import { Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
-import { FormEvent } from 'react'
+import { Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
+import { FormEvent, useEffect, useState } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { AvTimer } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
 import defaultBackground from './assets/bg-01.jpg'
 import TextInput from './components/inputs/TextInput'
-import { slowZoomInOutBackgroundAnimation } from './styles/animations'
 import { useCountdownSettings } from './hooks/useCountdownSettings'
+import AnimatedBackground from './components/AnimatedBackground'
+import { useDebounce } from './hooks/useDebounce'
 
 function App() {
   const {
@@ -28,17 +29,7 @@ function App() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundImage: `url(${backgroundUrl})`,
-        ...slowZoomInOutBackgroundAnimation,
-      }}
-    >
+    <AnimatedBackground backgroundUrl={backgroundUrl}>
       {isPresenting ? (
         <PresentationScreen
           title={eventTitle}
@@ -65,7 +56,7 @@ function App() {
                     <TextInput
                       label={'Background url'}
                       value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
-                      onChange={(value) => setBackgroundUrl(value.length > 0 ? value : defaultBackground)}
+                      onChange={setBackgroundUrl}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -101,7 +92,7 @@ function App() {
           </Card>
         </Container>
       )}
-    </Box>
+    </AnimatedBackground>
   )
 }
 

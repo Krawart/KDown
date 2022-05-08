@@ -21,17 +21,17 @@ export const pulseAnimation: SxProps = {
   animation: 'pulse 2s infinite',
 }
 
-export const slowZoomInOutBackgroundAnimation: SxProps = {
-  '@keyframes slowZoomInOutBackground': {
+export const slowZoomInOutAnimation: SxProps = {
+  '@keyframes slowZoomInOut': {
     '0%': {
-      backgroundSize: 'cover 100%',
+      transform: 'scale(1)',
     },
     '50%': {
-      backgroundSize: 'cover 110%',
+      transform: 'scale(1.5)',
     },
     '100%': {
-      backgroundSize: 'cover 100%',
+      transform: 'scale(1)',
     },
   },
-  animation: 'slowZoomInOutBackground 120s infinite',
+  animation: 'slowZoomInOut 180s infinite',
 }

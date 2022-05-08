@@ -9,11 +9,11 @@ export function useCountdownSettings() {
 
   const [eventTitle, setEventTitle] = useState((searchParams.get('event-title') as string) ?? '')
   const [backgroundUrl, setBackgroundUrl] = useState(
-    (searchParams.get('background-url') as string) ?? defaultBackground
+    (searchParams.get('background-url') as string) ?? defaultBackground,
   )
   const [finishedText, setFinishedText] = useState((searchParams.get('finished-text') as string) ?? '')
   const [eventDate, setEventDate] = useState<Date | null>(
-    searchParams.get('event-date') ? new Date(searchParams.get('event-date') as string) : null
+    searchParams.get('event-date') ? new Date(searchParams.get('event-date') as string) : null,
   )
   const [isPresenting, setIsPresenting] = useState<boolean>(false)
 

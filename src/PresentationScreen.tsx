@@ -1,27 +1,19 @@
-import { Box, IconButton, Typography } from '@mui/material'
+import { Box, CircularProgress, IconButton, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { useEffect, useRef, useState } from 'react'
-import { customFormatDuration, getDurationString } from './time-utils'
+import { customFormatDuration } from './time-utils'
+import { useCountdown } from './hooks/useCountdown'
+import { pulseAnimation } from './styles/animations'
 
 type PresentationScreenProps = {
   title: string
-  backgroundImage: string | undefined
+  finishText: string
   eventDateTime: Date
   onClose: () => void
 }
 
-function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: PresentationScreenProps) {
-  const now = new Date()
-  const timer = useRef(0)
-  const [remainingTime, setRemainingTime] = useState(getDurationString(eventDateTime, now))
 
-  useEffect(() => {
-    timer.current = setInterval(() => {
-      setRemainingTime(getDurationString(eventDateTime, now))
-    }, 1000)
-    return () => clearInterval(timer.current)
-  }, [eventDateTime, now])
-
+function PresentationScreen({ title, finishText, eventDateTime, onClose }: PresentationScreenProps) {
+  const { isFinished, remainingTime } = useCountdown(eventDateTime)
   return (
     <>
       <Box
@@ -36,8 +28,6 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
           flexGrow: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
           zIndex: 100,
         }}
       >
@@ -53,22 +43,38 @@ function PresentationScreen({ title, backgroundImage, eventDateTime, onClose }: 
             background: 'radial-gradient(rgba(0,0,0,0.70) 20%, transparent)',
           }}
         >
-          <IconButton onClick={onClose} sx={{
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            opacity: 0.3,
-            '&:hover': {
-              opacity: 1,
-              transition: 'opacity .15s'
-            },
-          }}>
+          <IconButton
+            onClick={onClose}
+            sx={{
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
+              opacity: 0.3,
+              '&:hover': {
+                opacity: 1,
+                transition: 'opacity .15s',
+              },
+            }}
+          >
             <Close sx={{ fontSize: '2rem' }} />
           </IconButton>
-          <Typography variant={'h1'} fontSize={'14rem'} fontWeight={500}>
-            {customFormatDuration(remainingTime)}
-          </Typography>
-          <Typography variant={'h2'}> {title}</Typography>
+          {remainingTime === undefined ? (
+            <CircularProgress size={'12rem'} />
+          ) : (
+            <Typography
+              sx={{
+                padding: 5,
+                ...(isFinished ? pulseAnimation : null),
+              }}
+              variant={'h1'}
+              fontSize={'14rem'}
+              fontWeight={500}
+            >
+              {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
+            </Typography>
+          )}
+
+          {!isFinished && <Typography variant={'h2'}> {title}</Typography>}
         </Box>
       </Box>
     </>

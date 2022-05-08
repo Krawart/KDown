@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { StyledEngineProvider, ThemeProvider } from '@mui/material'
+import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material'
 import theme from './theme'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -11,6 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <App />
         </ThemeProvider>
       </StyledEngineProvider>

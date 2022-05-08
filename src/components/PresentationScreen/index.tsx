@@ -62,11 +62,11 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
           ) : (
             <Typography
               sx={{
-                padding: 5,
+                padding: 1,
                 ...(isFinished ? pulseAnimation : null),
               }}
               variant={'h1'}
-              fontSize={{ xs: '5rem', sm: '8rem', md: '12rem', lg: '15rem' }}
+              fontSize={{ xs: '3.5rem', sm: '6rem', md: '9rem', lg: '12rem' }}
               fontWeight={500}
             >
               {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
@@ -74,7 +74,7 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
           )}
 
           {!isFinished && (
-            <Typography variant={'h2'} fontSize={{ xs: '2rem', sm: '3rem', md: '4rem', lg: '5rem' }}>
+            <Typography variant={'h2'} fontSize={{ xs: '1.5rem', sm: '2rem', md: '3rem', lg: '4rem' }}>
               {title}
             </Typography>
           )}

@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { AvTimer } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
@@ -7,7 +7,6 @@ import defaultBackground from './assets/bg-01.jpg'
 import TextInput from './components/inputs/TextInput'
 import { useCountdownSettings } from './hooks/useCountdownSettings'
 import AnimatedBackground from './components/AnimatedBackground'
-import { useDebounce } from './hooks/useDebounce'
 
 function App() {
   const {

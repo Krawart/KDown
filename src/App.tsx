@@ -1,23 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  CssBaseline,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Card, CardContent, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material'
 import { FormEvent, useState } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import { AvTimer, ContentPaste } from '@mui/icons-material'
+import { AvTimer } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
 import defaultBackground from './assets/bg-01.jpg'
+import TextInput from './components/inputs/TextInput'
 
 function App() {
   const [eventTitle, setEventTitle] = useState('')
@@ -59,44 +46,18 @@ function App() {
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel htmlFor='input-title'>Title</InputLabel>
-                    <OutlinedInput
-                      id={'input-title'}
-                      label={'Title'}
-                      endAdornment={
-                        <IconButton
-                          onClick={() => navigator.clipboard.readText().then((value) => setEventTitle(value))}
-                        >
-                          <ContentPaste />
-                        </IconButton>
-                      }
-                      fullWidth
-                      value={eventTitle}
-                      onChange={(e) => setEventTitle(e.target.value)}
-                    />
-                  </FormControl>
+                  <TextInput
+                    label={'Title'}
+                    value={eventTitle}
+                    onChange={setEventTitle}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <FormControl variant={'outlined'} fullWidth>
-                      <InputLabel htmlFor='input-background-url'>Background url</InputLabel>
-                      <OutlinedInput
-                        id={'input-background-url'}
-                        label={'Background url'}
-                        endAdornment={
-                          <IconButton
-                            onClick={() => navigator.clipboard.readText().then(handleChangeBackground)}
-                          >
-                            <ContentPaste />
-                          </IconButton>
-                        }
-                        fullWidth
-                        value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
-                        onChange={(e) => handleChangeBackground(e.target.value)}
-                      />
-                    </FormControl>
-                  </Box>
+                  <TextInput
+                    label={'Background url'}
+                    value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
+                    onChange={handleChangeBackground}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <DateTimePicker

@@ -1,38 +1,18 @@
-import { Box, CircularProgress, IconButton, SxProps, Typography } from '@mui/material'
+import { Box, CircularProgress, IconButton, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
 import { customFormatDuration } from './time-utils'
 import { useCountdown } from './hooks/useCountdown'
+import { pulseAnimation } from './styles/animations'
 
 type PresentationScreenProps = {
   title: string
   finishText: string
-  backgroundImage: string | undefined
   eventDateTime: Date
   onClose: () => void
 }
 
-const pulseAnimation: SxProps = {
-  '@keyframes pulse': {
-    '35%': {
-      transform: 'scale(1)',
-    },
-    '40%': {
-      transform: 'scale(0.85)',
-    },
-    '50%': {
-      transform: 'scale(1)',
-    },
-    '60%': {
-      transform: 'scale(0.95)',
-    },
-    '66%': {
-      transform: 'scale(1)',
-    },
-  },
-  animation: 'pulse 2s infinite',
-}
 
-function PresentationScreen({ title, finishText, backgroundImage, eventDateTime, onClose }: PresentationScreenProps) {
+function PresentationScreen({ title, finishText, eventDateTime, onClose }: PresentationScreenProps) {
   const { isFinished, remainingTime } = useCountdown(eventDateTime)
   return (
     <>
@@ -48,8 +28,6 @@ function PresentationScreen({ title, finishText, backgroundImage, eventDateTime,
           flexGrow: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
           zIndex: 100,
         }}
       >
@@ -96,7 +74,7 @@ function PresentationScreen({ title, finishText, backgroundImage, eventDateTime,
             </Typography>
           )}
 
-          <Typography variant={'h2'}> {title}</Typography>
+          {!isFinished && <Typography variant={'h2'}> {title}</Typography>}
         </Box>
       </Box>
     </>

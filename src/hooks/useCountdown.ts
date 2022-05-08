@@ -15,7 +15,6 @@ export function useCountdown(eventDateTime: Date) {
         clearInterval(timer.current)
       }
       setRemainingTime(time)
-      console.log([remainingTime, isFinished])
     }, 1000)
     return () => clearInterval(timer.current)
   }, [eventDateTime, now])

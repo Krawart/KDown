@@ -64,9 +64,15 @@ function RootPage() {
                   <Grid item xs={12}>
                     <DateTimePicker
                       renderInput={(props) => (
-                        <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
+                        <TextField
+                          sx={{ button: { mr: 0 } }}
+                          variant={'outlined'}
+                          label={'Event date'}
+                          fullWidth
+                          {...props}
+                        />
                       )}
-                      label='Event Date Time'
+                      label="Event Date Time"
                       value={eventDate}
                       onChange={(newEventDate) => setEventDate(newEventDate)}
                       onError={() => setEventDate(null)}

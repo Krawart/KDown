@@ -1,45 +1,39 @@
-import { Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
-import { FormEvent, useState } from 'react'
+import { Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
+import { FormEvent } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { AvTimer } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
 import defaultBackground from './assets/bg-01.jpg'
 import TextInput from './components/inputs/TextInput'
-import { slowZoomInOutBackgroundAnimation } from './styles/animations'
+import { useCountdownSettings } from './hooks/useCountdownSettings'
+import AnimatedBackground from './components/AnimatedBackground'
 
 function App() {
-  const [eventTitle, setEventTitle] = useState('')
-  const [backgroundUrl, setBackgroundUrl] = useState(defaultBackground)
-  const [finishText, setFinishText] = useState('')
-  const [eventDateTime, setEventDateTime] = useState<Date | null>(null)
-  const [isPresenting, setIsPresenting] = useState<boolean>(false)
+  const {
+    eventTitle,
+    setEventTitle,
+    backgroundUrl,
+    setBackgroundUrl,
+    finishedText,
+    setFinishedText,
+    eventDate,
+    setEventDate,
+    isPresenting,
+    setIsPresenting,
+  } = useCountdownSettings()
 
   function handlePresentationStart(e: FormEvent) {
     e.preventDefault()
     setIsPresenting(true)
   }
 
-  function handleChangeBackground(url: string) {
-    setBackgroundUrl(url.length > 0 ? url : defaultBackground)
-  }
-
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundImage: `url(${backgroundUrl})`,
-        ...slowZoomInOutBackgroundAnimation,
-      }}
-    >
+    <AnimatedBackground backgroundUrl={backgroundUrl}>
       {isPresenting ? (
         <PresentationScreen
           title={eventTitle}
-          finishText={finishText}
-          eventDateTime={eventDateTime ?? new Date(new Date().getMilliseconds() + 1000)}
+          finishText={finishedText}
+          eventDateTime={eventDate ?? new Date(new Date().getMilliseconds() + 1000)}
           onClose={() => setIsPresenting(false)}
         />
       ) : (
@@ -61,11 +55,11 @@ function App() {
                     <TextInput
                       label={'Background url'}
                       value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
-                      onChange={handleChangeBackground}
+                      onChange={setBackgroundUrl}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextInput label={'Finish text'} value={finishText} onChange={setFinishText} />
+                    <TextInput label={'Finish text'} value={finishedText} onChange={setFinishedText} />
                   </Grid>
                   <Grid item xs={12}>
                     <DateTimePicker
@@ -73,9 +67,9 @@ function App() {
                         <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
                       )}
                       label='Event Date Time'
-                      value={eventDateTime}
-                      onChange={(newEventDate) => setEventDateTime(newEventDate)}
-                      onError={() => setEventDateTime(null)}
+                      value={eventDate}
+                      onChange={(newEventDate) => setEventDate(newEventDate)}
+                      onError={() => setEventDate(null)}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -86,7 +80,7 @@ function App() {
                       fullWidth
                       variant={'contained'}
                       type={'submit'}
-                      disabled={!eventDateTime}
+                      disabled={!eventDate}
                     >
                       Run countdown
                     </Button>
@@ -97,7 +91,7 @@ function App() {
           </Card>
         </Container>
       )}
-    </Box>
+    </AnimatedBackground>
   )
 }
 

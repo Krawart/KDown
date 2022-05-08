@@ -11,7 +11,6 @@ type PresentationScreenProps = {
   onClose: () => void
 }
 
-
 function PresentationScreen({ title, finishText, eventDateTime, onClose }: PresentationScreenProps) {
   const { isFinished, remainingTime } = useCountdown(eventDateTime)
   return (
@@ -67,14 +66,18 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
                 ...(isFinished ? pulseAnimation : null),
               }}
               variant={'h1'}
-              fontSize={'14rem'}
+              fontSize={{ xs: '5rem', sm: '8rem', md: '12rem', lg: '15rem' }}
               fontWeight={500}
             >
               {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
             </Typography>
           )}
 
-          {!isFinished && <Typography variant={'h2'}> {title}</Typography>}
+          {!isFinished && (
+            <Typography variant={'h2'} fontSize={{ xs: '2rem', sm: '3rem', md: '4rem', lg: '5rem' }}>
+              {title}
+            </Typography>
+          )}
         </Box>
       </Box>
     </>

@@ -1,26 +1,42 @@
 import { Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { AvTimer } from '@mui/icons-material'
 import PresentationScreen from './PresentationScreen'
 import defaultBackground from './assets/bg-01.jpg'
 import TextInput from './components/inputs/TextInput'
 import { slowZoomInOutBackgroundAnimation } from './styles/animations'
+import { createSearchParams, useSearchParams } from 'react-router-dom'
+import { useDebounce } from './hooks/useDebounce'
 
 function App() {
-  const [eventTitle, setEventTitle] = useState('')
-  const [backgroundUrl, setBackgroundUrl] = useState(defaultBackground)
-  const [finishText, setFinishText] = useState('')
-  const [eventDateTime, setEventDateTime] = useState<Date | null>(null)
+  const onDebounced = useDebounce()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [eventTitle, setEventTitle] = useState((searchParams.get('event-title') as string) ?? '')
+  const [backgroundUrl, setBackgroundUrl] = useState(
+    (searchParams.get('background-url') as string) ?? defaultBackground,
+  )
+  const [finishedText, setFinishedText] = useState((searchParams.get('finished-text') as string) ?? '')
+  const [eventDate, setEventDate] = useState<Date | null>(
+    searchParams.get('event-date') ? new Date(searchParams.get('event-date') as string) : null,
+  )
   const [isPresenting, setIsPresenting] = useState<boolean>(false)
+
+  useEffect(() => {
+    onDebounced(() => {
+      const params = new URLSearchParams()
+      if (eventTitle.length > 0) params.append('event-title', eventTitle)
+      if (finishedText.length > 0) params.append('finished-text', finishedText)
+      if (backgroundUrl.length > 0 && backgroundUrl !== defaultBackground)
+        params.append('background-url', backgroundUrl)
+      if (eventDate !== null) params.append('event-date', eventDate.toISOString())
+      setSearchParams(createSearchParams(params))
+    })
+  }, [eventTitle, finishedText, backgroundUrl, eventDate])
 
   function handlePresentationStart(e: FormEvent) {
     e.preventDefault()
     setIsPresenting(true)
-  }
-
-  function handleChangeBackground(url: string) {
-    setBackgroundUrl(url.length > 0 ? url : defaultBackground)
   }
 
   return (
@@ -38,8 +54,8 @@ function App() {
       {isPresenting ? (
         <PresentationScreen
           title={eventTitle}
-          finishText={finishText}
-          eventDateTime={eventDateTime ?? new Date(new Date().getMilliseconds() + 1000)}
+          finishText={finishedText}
+          eventDateTime={eventDate ?? new Date(new Date().getMilliseconds() + 1000)}
           onClose={() => setIsPresenting(false)}
         />
       ) : (
@@ -61,11 +77,11 @@ function App() {
                     <TextInput
                       label={'Background url'}
                       value={backgroundUrl === defaultBackground ? '' : backgroundUrl}
-                      onChange={handleChangeBackground}
+                      onChange={(value) => setBackgroundUrl(value.length > 0 ? value : defaultBackground)}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextInput label={'Finish text'} value={finishText} onChange={setFinishText} />
+                    <TextInput label={'Finish text'} value={finishedText} onChange={setFinishedText} />
                   </Grid>
                   <Grid item xs={12}>
                     <DateTimePicker
@@ -73,9 +89,9 @@ function App() {
                         <TextField variant={'outlined'} label={'Event date'} fullWidth {...props} />
                       )}
                       label='Event Date Time'
-                      value={eventDateTime}
-                      onChange={(newEventDate) => setEventDateTime(newEventDate)}
-                      onError={() => setEventDateTime(null)}
+                      value={eventDate}
+                      onChange={(newEventDate) => setEventDate(newEventDate)}
+                      onError={() => setEventDate(null)}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -86,7 +102,7 @@ function App() {
                       fullWidth
                       variant={'contained'}
                       type={'submit'}
-                      disabled={!eventDateTime}
+                      disabled={!eventDate}
                     >
                       Run countdown
                     </Button>

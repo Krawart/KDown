@@ -4,15 +4,17 @@ import { customFormatDuration } from '../../utils/time-utils'
 import { useCountdown } from '../../hooks/useCountdown'
 import { pulseAnimation } from '../../styles/animations'
 
-type PresentationScreenProps = {
-  title: string
+type CountdownContentProps = {
   finishText: string
   eventDateTime: Date
-  onClose: () => void
 }
 
+type PresentationScreenProps = {
+  title: string
+  onClose: () => void
+} & CountdownContentProps
+
 function PresentationScreen({ title, finishText, eventDateTime, onClose }: PresentationScreenProps) {
-  const { isFinished, remainingTime } = useCountdown(eventDateTime)
   return (
     <>
       <Box
@@ -57,36 +59,43 @@ function PresentationScreen({ title, finishText, eventDateTime, onClose }: Prese
           >
             <Close sx={{ fontSize: '2rem' }} />
           </IconButton>
-          {remainingTime === undefined ? (
-            <CircularProgress size={'12rem'} />
-          ) : (
-            <Typography
-              sx={{
-                padding: 1,
-                textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)',
-                ...(isFinished ? pulseAnimation : null),
-              }}
-              variant={'h1'}
-              fontSize={{ xs: '3.5rem', sm: '6rem', md: '9rem', lg: '12rem' }}
-              fontWeight={500}
-            >
-              {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
-            </Typography>
-          )}
-
-          {!isFinished && (
-            <Typography
-              sx={{ textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)' }}
-              variant={'h2'}
-              fontSize={{ xs: '1.5rem', sm: '2rem', md: '3rem', lg: '4rem' }}
-            >
-              {title}
-            </Typography>
-          )}
+          <CountdownContent finishText={finishText} eventDateTime={eventDateTime} />
+          <Typography
+            sx={{ textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)' }}
+            variant={'h2'}
+            fontSize={{ xs: '1.5rem', sm: '2rem', md: '3rem', lg: '4rem' }}
+          >
+            {title}
+          </Typography>
         </Box>
       </Box>
     </>
   )
+}
+
+function CountdownContent({ finishText, eventDateTime }: CountdownContentProps) {
+  const { isFinished, remainingTime } = useCountdown(eventDateTime)
+
+  return <Box>
+    {remainingTime === undefined ? (
+      <CircularProgress size={'12rem'} />
+    ) : (
+      <Typography
+        sx={{
+          padding: 1,
+          textShadow: '0.2rem 0.6rem 1rem rgba(0,0,0,0.618)',
+          ...(isFinished ? pulseAnimation : null),
+        }}
+        variant={'h1'}
+        fontSize={{ xs: '3.5rem', sm: '6rem', md: '9rem', lg: '12rem' }}
+        fontWeight={500}
+      >
+        {isFinished && finishText !== '' ? finishText : customFormatDuration(remainingTime)}
+      </Typography>
+    )}
+
+  </Box>
+
 }
 
 export default PresentationScreen

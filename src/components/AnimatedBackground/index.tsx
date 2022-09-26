@@ -1,15 +1,16 @@
-import { slowZoomInOutAnimation } from '../../styles/animations'
 import { Box, Fade } from '@mui/material'
 import { ReactElement, useEffect, useState } from 'react'
 import defaultBackground from '../../assets/bg-01.jpg'
 import { useDebounce } from '../../hooks/useDebounce'
+import { slowZoomInOutAnimation } from '../../styles/animations'
 
 type AnimatedBackgroundProps = {
   children: ReactElement
   backgroundUrl: string
+  isAnimated: boolean
 }
 
-function AnimatedBackground({ children, backgroundUrl }: AnimatedBackgroundProps) {
+function AnimatedBackground({ children, backgroundUrl, isAnimated }: AnimatedBackgroundProps) {
   const onDebounced = useDebounce()
   const [debouncedBackgroundUrl, setDebouncedBackgroundUrl] = useState(backgroundUrl)
   useEffect(() => {
@@ -31,7 +32,7 @@ function AnimatedBackground({ children, backgroundUrl }: AnimatedBackgroundProps
             backgroundSize: 'cover',
             minHeight: '100vh',
             minWidth: '100vw',
-            ...slowZoomInOutAnimation,
+            ...(isAnimated && slowZoomInOutAnimation),
           }}
         ></Box>
         <Box

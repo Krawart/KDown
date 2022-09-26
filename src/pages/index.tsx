@@ -2,7 +2,17 @@ import { useCountdownSettings } from '../hooks/useCountdownSettings'
 import { FormEvent } from 'react'
 import AnimatedBackground from '../components/AnimatedBackground'
 import PresentationScreen from '../components/PresentationScreen'
-import { Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  FormControlLabel,
+  Grid,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { AvTimer } from '@mui/icons-material'
 import TextInput from '../components/inputs/TextInput'
 import defaultBackground from '../assets/bg-01.jpg'
@@ -20,6 +30,8 @@ function RootPage() {
     setEventDate,
     isPresenting,
     setIsPresenting,
+    isAnimated,
+    setIsAnimated,
   } = useCountdownSettings()
 
   function handlePresentationStart(e: FormEvent) {
@@ -28,7 +40,7 @@ function RootPage() {
   }
 
   return (
-    <AnimatedBackground backgroundUrl={backgroundUrl}>
+    <AnimatedBackground isAnimated={isAnimated} backgroundUrl={backgroundUrl}>
       {isPresenting ? (
         <PresentationScreen
           title={eventTitle}
@@ -72,11 +84,19 @@ function RootPage() {
                           {...props}
                         />
                       )}
-                      label="Event Date Time"
+                      label='Event Date Time'
                       value={eventDate}
                       onChange={(newEventDate) => setEventDate(newEventDate)}
                       onError={() => setEventDate(null)}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel control={<Switch
+                      sx={{ my: 3 }}
+                      checked={isAnimated}
+                      color={'primary'}
+                      onChange={() => setIsAnimated(checked => !checked)}
+                    />} label='Animated background' />
                   </Grid>
                   <Grid item xs={12}>
                     <Button
